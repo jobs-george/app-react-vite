@@ -4,24 +4,37 @@ This template provides a minimal setup to get React working in Vite with HMR and
 
 # Getting Started
 
-To build a Vite project and push the build output to a different Git branch,
+Ensure that your `vite.config.js` file includes the correct `base` property. 
+This property should be set to the name of your repository. 
+For example:
+```javascript
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+    base: '/your-repo-name/',
+    plugins: [react()],
+});
+```
+Run the build command to generate the production files:
 ```sh
 npm run build
 ```
-This generates the build output in the `dist` directory.
+You can use the `gh-pages` package to deploy your build output to GitHub Pages. 
 
-Next, switch to a new branch,
+First, install the package:
 ```sh
-git switch -C gh-pages
+npm install gh-pages --save-dev
 ```
-or
+Then, add the following scripts to your `package.json`:
+```json
+"scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
+}
+```
+Finally, deploy your project:
 ```sh
-git checkout -b gh-pages
+npm run deploy
 ```
-if the branch already exists.
-
-Copy all of the files from the distribution folder to the root,
-```sh
-cp -r dist/* .
-```
-and commit and push to the `gh-pages` branch.
+Make sure that GitHub Pages is set to serve from the `gh-pages` branch in your repository settings.
